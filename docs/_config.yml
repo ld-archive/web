@@ -30,9 +30,11 @@ url: "https://ld-archive.org" # the base hostname & protocol for your site, e.g.
 github_username:  ld-archive
 
 # Build settings
-theme: minima
+remote_theme: mmistakes/minimal-mistakes@4.28.0
 plugins:
   - jekyll-feed
+  - jekyll-remote-theme
+  - jekyll-include-cache
 
 # Exclude from processing.
 # The following items will not be processed, by default.
