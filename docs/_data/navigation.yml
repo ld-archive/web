@@ -1,0 +1,5 @@
+# Main navigation shown in the masthead.
+# Add /archive/ and /contribute/ here once those pages exist.
+main:
+  - title: "About"
+    url: /about/
