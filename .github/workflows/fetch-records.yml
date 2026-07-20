@@ -1,0 +1,49 @@
+# Refreshes docs/_data/records.json from the archive backend (Zenodo /
+# InvenioRDM community) and commits any changes. GitHub Pages then rebuilds.
+#
+# DORMANT until you are ready: it only runs when triggered by hand
+# (workflow_dispatch). To go live, (1) set COMMUNITY below to your real
+# community slug, and (2) uncomment the `schedule:` block.
+name: Fetch archive records
+
+on:
+  workflow_dispatch:
+  # Uncomment to refresh automatically once a day (03:17 UTC):
+  # schedule:
+  #   - cron: "17 3 * * *"
+
+permissions:
+  contents: write
+
+env:
+  BASE_URL: "https://zenodo.org"   # or https://works.hcommons.org for Knowledge Commons
+  COMMUNITY: "REPLACE-WITH-COMMUNITY-SLUG"
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Fetch and normalise records
+        run: |
+          python3 scripts/fetch_records.py \
+            --base-url "$BASE_URL" \
+            --community "$COMMUNITY" \
+            --out docs/_data/records.json
+
+      - name: Commit if changed
+        run: |
+          if [[ -n "$(git status --porcelain docs/_data/records.json)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add docs/_data/records.json
+            git commit -m "Update archive records from $COMMUNITY"
+            git push
+          else
+            echo "No changes to records.json"
+          fi
