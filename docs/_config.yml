@@ -36,18 +36,43 @@ plugins:
   - jekyll-remote-theme
   - jekyll-include-cache
 
+# Jekyll ignores underscore-prefixed folders by default, so _pages would
+# never be generated (every page in it 404s) without this.
+include:
+  - _pages
+
 # Minimal Mistakes theme configuration
-minimal_mistakes_skin: "default" # skin options: default, air, aqua, contrast, dark, dirt, neon, mint, plum, sunrise
+minimal_mistakes_skin: "dark" # skin options: default, air, aqua, contrast, dark, dirt, neon, mint, plum, sunrise
 locale: "en-GB"
 
 # Site-wide author / organisation (shown in sidebars and footer)
+# `icon` must be full Font Awesome 6 classes — a bare name like "github"
+# renders an empty <i class="github"> with no icon.
 author:
   name: "The Lighting Design Archive"
   bio: "A public archive of theatre lighting design materials, a project of RADA."
   links:
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      url: "https://ld-archive.org"
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/ld-archive"
+
+# Footer social icons and copyright line, read directly by the theme's
+# _includes/footer.html. Longer-form footer text lives in
+# _includes/footer/custom.html instead.
+footer:
+  # Quoted deliberately: the theme compares this against a string year, so an
+  # unquoted integer never matches and renders a redundant "2026 - 2026".
+  since: "2026"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/ld-archive"
+    - label: "Email"
+      icon: "fas fa-fw fa-envelope"
+      url: "mailto:contact@ld-archive.org"
+
+copyright: "The Lighting Design Archive"
+copyright_url: "https://ld-archive.org"
 
 # Client-side search over site content (Lunr, no server needed)
 search: true

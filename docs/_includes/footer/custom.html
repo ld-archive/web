@@ -1,0 +1,26 @@
+<!-- start custom footer snippets -->
+{% comment %}
+  Overrides the theme's empty stub at _includes/footer/custom.html.
+  Rendered ABOVE the theme's social-icon row and copyright line.
+  Edit freely — theme upgrades will not touch this file.
+{% endcomment %}
+
+<div class="page__footer-info">
+  <p>
+    The Lighting Design Archive is a public archive of theatre lighting design
+    materials. A project of the Lighting Department at the 
+    <a href="https://www.rada.ac.uk/">Royal Academy of Dramatic Art</a>.
+  </p>
+  <p>
+    <a href="{{ '/archive/' | relative_url }}">Browse the archive</a> &middot;
+    <a href="{{ '/about/' | relative_url }}">About</a> &middot;
+    <a href="mailto:{{ site.email }}">{{ site.email }}</a>
+  </p>
+  <p>
+    All content on this site remains the property of the original copyright 
+    holder. Materials are made available for research and educational purposes 
+    only. Please contact the copyright holder for permission to reproduce or 
+    publish any materials.
+  </p>
+</div>
+<!-- end custom footer snippets -->

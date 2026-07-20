@@ -1,0 +1,35 @@
+# Local Jekyll development for LD-Archive.org.
+#
+#   docker compose up          # serve at http://localhost:4000
+#   docker compose down        # stop
+#   docker compose run --rm jekyll bundle update   # refresh gems
+#
+# Uses the official multi-arch ruby image (native on Apple Silicon) rather
+# than the unmaintained amd64-only jekyll/jekyll image. Gems live in a named
+# volume so they survive restarts and aren't rebuilt every time.
+
+services:
+  jekyll:
+    image: ruby:3.3
+    working_dir: /site
+    ports:
+      - "4000:4000"   # site
+      - "35729:35729" # livereload
+    volumes:
+      - ./docs:/site          # Jekyll source is the docs/ folder
+      - gems:/usr/local/bundle # cached gems
+    environment:
+      JEKYLL_ENV: development
+      BUNDLE_PATH: /usr/local/bundle
+    # --force_polling is required: file-change events don't cross the
+    # macOS <-> container mount boundary reliably without it.
+    # NOTE: keep every continuation line at the SAME indentation. In a YAML
+    # folded block, a more-indented line keeps its newline, which would break
+    # the flags off the jekyll command (and silently bind to 127.0.0.1).
+    command: >
+      bash -c "gem install bundler -v 4.0.16 --conservative --no-document &&
+      bundle install &&
+      bundle exec jekyll serve --host 0.0.0.0 --port 4000 --livereload --force_polling --incremental"
+
+volumes:
+  gems:
